@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>AR.js Unity WebGL</title>
+  <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+  <script src="https://cdn.rawgit.com/jeromeetienne/AR.js/2.1.4/aframe/build/aframe-ar.min.js"></script>
+</head>
+<body style='margin: 0px; overflow: hidden;'>
+  <!-- Unity WebGL Content -->
+  <div id="unity-container" style="width: 960px; height: 600px"></div>
+  <script>
+    var buildUrl = "Build";
+    var loaderUrl = buildUrl + "/webgl.loader.js";
+    var config = {
+      dataUrl: buildUrl + "/webgl.data.br",
+      frameworkUrl: buildUrl + "/webgl.framework.js.br",
+      codeUrl: buildUrl + "/webgl.wasm.br",
+      streamingAssetsUrl: "StreamingAssets",
+      companyName: "Your Company",
+      productName: "Your Product",
+      productVersion: "1.0",
+    };
+
+    var script = document.createElement("script");
+    script.src = loaderUrl;
+    script.onload = () => {
+      createUnityInstance(document.querySelector("#unity-container"), config, (progress) => {
+        console.log(`Loading ${progress * 100}%`);
+      }).then((unityInstance) => {
+        console.log("Unity loaded");
+      }).catch((message) => {
+        alert(message);
+      });
+    };
+    document.body.appendChild(script);
+  </script>
+
+ <!-- AR.js Content -->
+ <a-scene embedded arjs='sourceType: webcam;'>
+  <a-marker preset='hiro'>
+    <!-- Puedes añadir otras entidades aquí según sea necesario -->
+  </a-marker>
+  <a-entity camera></a-entity>
+</a-scene>
+</body>
+</html>
+
